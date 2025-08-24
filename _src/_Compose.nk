@@ -1,0 +1,369 @@
+#! C:/1-CG/Nuke/9.0v6/nuke-9.0.6.dll -nx
+version 9.0 v6
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="1920" y="-1093" w="3840" h="2110" screen="0">
+        <splitter orientation="1">
+            <split size="46"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="3153" stretch="1"/>
+            <splitter orientation="2">
+                <split size="1194"/>
+                <dock id="" activePageId="Viewer.1">
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="839"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name E:/GIT/Python/ColorSpace-Estimate/_src/_Compose.nk
+ project_directory "\[file dirname \[value root.name]]"
+ frame 2
+ last_frame 3
+ lock_range true
+ fps 30
+ format "1024 1024 0 0 1024 1024 1 square_1K"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+}
+Read {
+ inputs 0
+ file E:/GIT/Python/ColorSpace-Estimate/_src/random_colors.exr
+ format "756 6 0 0 756 6 1 "
+ origset true
+ name Read1
+ xpos 1060
+ ypos 1592
+}
+Dot {
+ name Dot_in
+ xpos 1094
+ ypos 1722
+}
+Transform {
+ translate {{parent.Dot_grayscale.width} 0}
+ center {512 512}
+ filter Impulse
+ name Transform
+ xpos 1060
+ ypos 1910
+}
+push 0
+Reformat {
+ inputs 0
+ type "to box"
+ box_width {{parent.Dot_in.height}}
+ box_height {{box_width}}
+ resize none
+ filter Impulse
+ name Reformat1
+ xpos 840
+ ypos 1622
+}
+Crop {
+ box {0 0 {width} {height}}
+ reformat true
+ crop false
+ name Crop1
+ xpos 840
+ ypos 1646
+}
+Time_ClipAndOffset {
+ name Time_ClipAndOffset1
+ xpos 840
+ ypos 1670
+ origfirst {1}
+ origlast {{origfirst}}
+}
+Dot {
+ name Dot1
+ xpos 874
+ ypos 1722
+}
+set N69be000 [stack 0]
+Fill_withColor {
+ name Fill_withColor2
+ xpos 840
+ ypos 1766
+ fill_channels RGB
+}
+set N693f900 [stack 0]
+Colorspace {
+ colorspace_out sRGB
+ name Colorspace1
+ xpos 950
+ ypos 1814
+}
+push $N693f900
+push $N693f900
+Colorspace {
+ colorspace_in sRGB
+ name Colorspace2
+ xpos 730
+ ypos 1814
+}
+push $N69be000
+Fill_withColor {
+ name Fill_withColor1
+ xpos 620
+ ypos 1766
+ fill_channels RGB
+ color 0
+}
+AppendClip {
+ inputs 4
+ meta_from_first false
+ time ""
+ name AppendClip1
+ xpos 730
+ ypos 1886
+}
+ContactSheet_noResize {
+ name ContactSheet_noResize1
+ xpos 950
+ ypos 1886
+ columns {4}
+ rows {1}
+ extra_boundary 0
+ startframe {{first_frame}}
+ endframe {{last_frame}}
+}
+Dot {
+ name Dot_grayscale
+ xpos 984
+ ypos 1914
+}
+BlackOutside {
+ name BlackOutside1
+ xpos 950
+ ypos 1934
+}
+Reformat {
+ inputs 0
+ type "to box"
+ box_width {{"parent.Dot_in.width + parent.Dot_grayscale.width"}}
+ box_height {{parent.Dot_in.height}}
+ resize none
+ filter Impulse
+ name Reformat2
+ xpos 840
+ ypos 1910
+}
+Merge2 {
+ inputs 3+1
+ operation plus
+ name Merge1
+ xpos 950
+ ypos 1982
+}
+Crop {
+ box {0 0 {width} {height}}
+ reformat true
+ crop false
+ name Crop2
+ xpos 950
+ ypos 2006
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove1
+ xpos 950
+ ypos 2054
+}
+Dot {
+ name Dot2
+ xpos 984
+ ypos 2106
+}
+set N78d31800 [stack 0]
+Colorspace {
+ colorspace_in sRGB
+ name Colorspace4
+ xpos 730
+ ypos 2102
+}
+Dot {
+ name Dot6
+ xpos 764
+ ypos 2226
+}
+set N78d67800 [stack 0]
+Dot {
+ name Dot8
+ xpos 764
+ ypos 2346
+}
+Dot {
+ name Dot7
+ xpos 874
+ ypos 2346
+}
+Write {
+ file ./palette_sRGB_to_linear.exr
+ colorspace linear
+ file_type exr
+ datatype "32 bit float"
+ version 6
+ name Write4
+ xpos 840
+ ypos 2401
+}
+Write {
+ file ./PNG/palette_sRGB_to_linear.png
+ file_type png
+ checkHashOnRead false
+ version 4
+ name Write7
+ xpos 840
+ ypos 2480
+}
+push $N78d31800
+Colorspace {
+ colorspace_out sRGB
+ name Colorspace3
+ xpos 1170
+ ypos 2102
+}
+set N78d31400 [stack 0]
+Dot {
+ name Dot4
+ xpos 1204
+ ypos 2226
+}
+set N78d31000 [stack 0]
+Dot {
+ name Dot5
+ xpos 1204
+ ypos 2346
+}
+Dot {
+ name Dot3
+ xpos 1094
+ ypos 2346
+}
+Write {
+ file ./palette_linear_to_sRGB.exr
+ colorspace linear
+ file_type exr
+ datatype "32 bit float"
+ version 6
+ name Write3
+ xpos 1060
+ ypos 2401
+}
+Write {
+ file ./PNG/palette_linear_to_sRGB.png
+ file_type png
+ checkHashOnRead false
+ version 4
+ name Write5
+ xpos 1060
+ ypos 2480
+}
+push $N78d31800
+Write {
+ file ./palette_linear.exr
+ colorspace linear
+ file_type exr
+ datatype "32 bit float"
+ version 5
+ name Write1
+ xpos 950
+ ypos 2137
+}
+Read {
+ inputs 0
+ file ./palette_linear.exr
+ format "780 6 0 0 780 6 1 "
+ origset true
+ version 6
+ name Read2
+ xpos 950
+ ypos 2240
+}
+Write {
+ file ./PNG/palette_linear.png
+ file_type png
+ checkHashOnRead false
+ version 4
+ name Write6
+ xpos 950
+ ypos 2480
+}
+Read {
+ inputs 0
+ file ./tmp/_palette_sRGB_to_linear.exr
+ format "780 6 0 0 780 6 1 "
+ origset true
+ version 3
+ name Read3
+ xpos 1060
+ ypos 2240
+}
+push $N78d31000
+Merge2 {
+ inputs 2
+ operation difference
+ name Merge2
+ xpos 1280
+ ypos 2270
+}
+Read {
+ inputs 0
+ file ./palette_linear.exr
+ format "780 6 0 0 780 6 1 "
+ origset true
+ version 7
+ colorspace sRGB
+ name Read4
+ xpos 840
+ ypos 2234
+}
+push $N78d67800
+Merge2 {
+ inputs 2
+ operation difference
+ name Merge3
+ xpos 620
+ ypos 2270
+}
+push $N78d31400
+push $N78d31800
+Viewer {
+ inputs 2
+ frame_range 1-3
+ fps 30
+ input_process false
+ translate {-0.2269999981 0.02800000086}
+ name Viewer1
+ note_font Verdana
+ xpos 400
+ ypos 2199
+}
+push $N78d31800
+Write {
+ file ./tmp/_palette_sRGB_to_linear.exr
+ colorspace sRGB
+ file_type exr
+ datatype "32 bit float"
+ version 7
+ name Write2
+ xpos 1060
+ ypos 2137
+}
