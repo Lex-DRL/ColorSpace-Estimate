@@ -46,6 +46,7 @@ Read {
  file E:/GIT/Python/ColorSpace-Estimate/_src/random_colors.exr
  format "756 6 0 0 756 6 1 "
  origset true
+ version 5
  name Read1
  xpos 1060
  ypos 1592
@@ -95,29 +96,29 @@ Dot {
  xpos 874
  ypos 1722
 }
-set N69be000 [stack 0]
+set N684e000 [stack 0]
 Fill_withColor {
  name Fill_withColor2
  xpos 840
  ypos 1766
  fill_channels RGB
 }
-set N693f900 [stack 0]
+set N67cf900 [stack 0]
 Colorspace {
  colorspace_out sRGB
  name Colorspace1
  xpos 950
  ypos 1814
 }
-push $N693f900
-push $N693f900
+push $N67cf900
+push $N67cf900
 Colorspace {
  colorspace_in sRGB
  name Colorspace2
  xpos 730
  ypos 1814
 }
-push $N69be000
+push $N684e000
 Fill_withColor {
  name Fill_withColor1
  xpos 620
@@ -191,7 +192,7 @@ Dot {
  xpos 984
  ypos 2106
 }
-set N78d31800 [stack 0]
+set N64dd1800 [stack 0]
 Colorspace {
  colorspace_in sRGB
  name Colorspace4
@@ -203,7 +204,7 @@ Dot {
  xpos 764
  ypos 2226
 }
-set N78d67800 [stack 0]
+set N64dd1000 [stack 0]
 Dot {
  name Dot8
  xpos 764
@@ -219,7 +220,7 @@ Write {
  colorspace linear
  file_type exr
  datatype "32 bit float"
- version 6
+ version 7
  name Write4
  xpos 840
  ypos 2401
@@ -228,25 +229,25 @@ Write {
  file ./PNG/palette_sRGB_to_linear.png
  file_type png
  checkHashOnRead false
- version 4
+ version 5
  name Write7
  xpos 840
  ypos 2480
 }
-push $N78d31800
+push $N64dd1800
 Colorspace {
  colorspace_out sRGB
  name Colorspace3
  xpos 1170
  ypos 2102
 }
-set N78d31400 [stack 0]
+set N64e07c00 [stack 0]
 Dot {
  name Dot4
  xpos 1204
  ypos 2226
 }
-set N78d31000 [stack 0]
+set N64e07800 [stack 0]
 Dot {
  name Dot5
  xpos 1204
@@ -262,7 +263,7 @@ Write {
  colorspace linear
  file_type exr
  datatype "32 bit float"
- version 6
+ version 7
  name Write3
  xpos 1060
  ypos 2401
@@ -271,37 +272,27 @@ Write {
  file ./PNG/palette_linear_to_sRGB.png
  file_type png
  checkHashOnRead false
- version 4
+ version 5
  name Write5
  xpos 1060
  ypos 2480
-}
-push $N78d31800
-Write {
- file ./palette_linear.exr
- colorspace linear
- file_type exr
- datatype "32 bit float"
- version 5
- name Write1
- xpos 950
- ypos 2137
 }
 Read {
  inputs 0
  file ./palette_linear.exr
  format "780 6 0 0 780 6 1 "
  origset true
- version 6
+ version 11
  name Read2
  xpos 950
  ypos 2240
 }
+set N64e06000 [stack 0]
 Write {
  file ./PNG/palette_linear.png
  file_type png
  checkHashOnRead false
- version 4
+ version 5
  name Write6
  xpos 950
  ypos 2480
@@ -316,7 +307,7 @@ Read {
  xpos 1060
  ypos 2240
 }
-push $N78d31000
+push $N64e07800
 Merge2 {
  inputs 2
  operation difference
@@ -335,7 +326,7 @@ Read {
  xpos 840
  ypos 2234
 }
-push $N78d67800
+push $N64dd1000
 Merge2 {
  inputs 2
  operation difference
@@ -343,8 +334,30 @@ Merge2 {
  xpos 620
  ypos 2270
 }
-push $N78d31400
-push $N78d31800
+push $N64dd1800
+Write {
+ file ./tmp/_palette_sRGB_to_linear.exr
+ colorspace sRGB
+ file_type exr
+ datatype "32 bit float"
+ version 7
+ name Write2
+ xpos 1060
+ ypos 2137
+}
+push $N64dd1800
+Write {
+ file ./palette_linear.exr
+ colorspace linear
+ file_type exr
+ datatype "32 bit float"
+ version 6
+ name Write1
+ xpos 950
+ ypos 2137
+}
+push $N64e07c00
+push $N64e06000
 Viewer {
  inputs 2
  frame_range 1-3
@@ -355,15 +368,4 @@ Viewer {
  note_font Verdana
  xpos 400
  ypos 2199
-}
-push $N78d31800
-Write {
- file ./tmp/_palette_sRGB_to_linear.exr
- colorspace sRGB
- file_type exr
- datatype "32 bit float"
- version 7
- name Write2
- xpos 1060
- ypos 2137
 }
